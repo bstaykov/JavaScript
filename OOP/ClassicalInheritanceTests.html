@@ -1,0 +1,121 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Classical Inheritance Tests</title>
+</head>
+<body>
+    <script>
+
+        var Person = (function () {
+
+            function Person(fname, lname, age) {
+                this.fname = fname;
+                this.lname = lname;
+                this.age = age;
+            }
+
+            Object.defineProperty(Person.prototype, 'fname', {
+                get: function () {
+                    return this._fname;
+                },
+                set: function (value) {
+                    if (typeof (value) !== 'string') {
+                        throw new Error('Invalid fname');
+                    }
+
+                    this._fname = value;
+                },
+                enumerable: false,
+            });
+
+            Object.defineProperty(Person.prototype, 'lname', {
+                get: function () {
+                    return this._lname;
+                },
+                set: function (value) {
+                    if (typeof (value) !== 'string') {
+                        throw new Error('Invalid lname');
+                    }
+
+                    this._lname = value;
+                },
+            });
+
+            Object.defineProperty(Person.prototype, 'age', {
+                get: function () {
+                    return this._age;
+                },
+                set: function (value) {
+                    if (typeof (value) !== 'number') {
+                        throw new Error('Invalid age');
+                    }
+
+                    this._age = value;
+                },
+            });
+
+            Object.defineProperty(Person.prototype, 'fullname', {
+                get: function () {
+                    return this._fname + ' ' + this._lname;
+                },
+            });
+
+            Person.prototype.info = function () {
+                return 'Full Name: ' + this.fullname + ' Age: ' + this._age;
+            }
+
+            Person.isAdult = function (age) {
+                return age > 18;
+            }
+            
+            return Person;
+        }());
+
+        var firstPerson = new Person('Ivan', 'Ivanov', 32),
+                secondPerson = new Person('Petar', 'Petrov', 14);
+        console.log(firstPerson.info());
+        console.log(secondPerson.info());
+        console.log(firstPerson.fullname);
+
+        console.log(Person.isAdult(firstPerson.age));
+        console.log(Person.isAdult(secondPerson.age));
+
+        // inheritance
+        var Student = (function () {
+            function Student(fname, lname, age, grade) {
+                Person.call(this, fname, lname, age);
+                this.grade = grade;
+            }
+
+            Object.defineProperty(Person.prototype, 'grade', {
+                get: function () {
+                    return this._grade;
+                },
+                set: function (value) {
+                    if (typeof (value) !== 'number') {
+                        throw new Error('Invalid grade');
+                    }
+
+                    this._grade = value;
+                },
+                enumerable: false,
+            });
+
+            Student.prototype = Object.create(Person.prototype);
+
+            Student.prototype.info = function () {
+                var personInfo = Person.prototype.info.call(this);
+                return personInfo + ' Grade: ' + this.grade;
+            }
+
+            return Student;
+        }());
+
+        var student = new Student('Ivan', 'Studentov', 18, 5);
+        console.log(student instanceof Student);
+        console.log(student instanceof Person);
+        console.log(student.fullname);
+        console.log(student.info());
+    </script>
+</body>
+</html>

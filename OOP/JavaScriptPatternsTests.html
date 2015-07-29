@@ -1,0 +1,104 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>JavaScript Patterns</title>
+</head>
+<body>
+    <script>
+        var db = (function () {
+            var id = 0,
+                objects = [];
+
+            function generateId() {
+                return id += 1;
+            }
+
+            function add(obj) {
+                obj.id = generateId();
+                objects.push(obj);
+            }
+
+            function list() {
+                return objects.slice();
+            }
+
+            return {
+                add: add,
+                list: list,
+            };
+        }());
+
+        db.add({ name: 'Ivan' });
+        db.add({ name: 'Ivan', age: 23 });
+        db.add({ name: 'Ivan', age: 34 });
+        console.log(db.list());
+
+        // Singleton
+        var databases = (function () {
+            var items = [],
+                db = {
+                    add: function (item) {
+                        items.push(item);
+                        return db;
+                    },
+                    list: function () {
+                        return items.slice();
+                    }
+                };
+
+            return {
+                get: function () {
+                    return db;
+                }
+            }
+        }());
+
+        console.log(databases.get().add('Ivan').add('Dragan').list());
+
+        console.log(databases.get().add('Stoian').list());
+
+        console.log(databases.get().add('Miro').add('Koko'));
+
+
+        // Wrong Singleton
+        var calculator = (function () {
+            var instance;
+
+            return {
+                get: function () {
+                    if (instance === undefined ) {
+                        instance = {
+                            result: 0,
+                            add: function (x) {
+                                this.result += x;
+                            }
+                        };
+                    }
+
+                    return instance;
+                }
+            };
+        }());
+        calculator.get().add(5);
+        calculator.get().add(23)
+        console.log(calculator.get().result);
+
+        //Augmenting modules (extending modules)
+
+        //file 1
+        var module = module || {};
+        (function (module) {
+            module.x = 'module-1';
+        }(module));
+
+        //file 2
+        var module = module || {};
+        (function (module) {
+            module.y = 'module-2';
+        }(module));
+
+        console.log(module.x);
+        console.log(module.y);
+    </script>
+</body>
+</html>
