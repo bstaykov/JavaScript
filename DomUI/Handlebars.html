@@ -1,0 +1,108 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Handlebars</title>
+</head>
+<body>
+    <div id="wrapper"></div>
+
+    <script id="article-template" type="text/x-handlebars-template">
+        <div class="template">
+            <p class="article-title" data-id="{{id}}">{{{title}}}</p>
+            <p>{{content}}</p>
+            <p>{{safe-content}}</p>
+            <p>Read: {{visitors}}</p>
+            <p>Likes: {{likes}}</p>
+            <p>
+                Tags:
+                {{#tags}}
+                    <a href="partials/{{id}}.html">{{name}}</a>
+                {{/tags}}
+            </p>
+            {{#if author}}
+            <p>Author: {{author}}</p>
+            {{/if}}
+            {{#unless author}}
+            <p>No Author</p>
+            {{/unless}}
+            {{#if town}}
+            <p>Town: {{town}}</p>
+            {{/if}}
+            {{#unless town}}
+            <p>No Town</p>
+            {{/unless}}
+            {{#if hasFullName}}
+            <p>Has Full Name: {{firstName}} {{lastName}}</p>
+            {{/if}}
+            <p>
+                Tags:
+                {{#each tags}}
+                <a href="partials/{{id}}.html"> (index: {{@index}}, value: {{name}} ) </a>
+                {{/each}}
+            </p>
+            <p>
+                Siblings:
+                {{#with family}}
+                    <span>Brother: {{brother}}</span> <span>Sister: {{sister}}</span> <span>Grandmother: {{grandparrents.grandmother}}</span>
+                {{/with}}
+                <br />
+                Siblings: <span>Brother: {{family.brother}}</span> <span>Sister: {{family.sister}}</span> <span>Grandmother: {{family.grandparrents.grandmother}}</span>
+            </p>
+            <p>
+                {{#dropdown links}}
+                {{/dropdown}}
+            </p>
+        </div>
+    </script>
+
+    <script src="Scripts/handlebars.min.js"></script>
+
+    <script>
+        // register custom helper 'forin'
+        Handlebars.registerHelper('dropdown', function (links) {
+            var html = '<ul>',
+                link;
+            for (link in links) {
+                //html += '<li><a href="' + link.href + '>' + link.name + '</a></li>';
+                html += '<li><a href="' + links[link].href + '">' + links[link].name + '</a></li>';
+            }
+
+            html += '</ul>';
+
+            return new Handlebars.SafeString(html);
+        });
+
+        //
+        var html = document.getElementById('article-template').innerHTML;
+        var articleTemplate = Handlebars.compile(html);
+        var article = {
+            id: 5,
+            title: '<h1>Title (not escaped)</h1>',
+            content: 'The earth is millions of years old...<h1>(escaped)</h1>',
+            'safe-content': new Handlebars.SafeString('<h1>new Handlebars.SafeString("string")</h1> '),
+            visitors: 123445,
+            likes: 453,
+            tags: [{ name: 'oop', id: 1 }, { name: 'java', id: 2 }, { name: 'script', id: 3 }],
+            author: 'Baj Ivan',
+            firstName: 'Pesho',
+            lastName: 'Goshov',
+            hasFullName: true,
+            family:
+                {
+                    brother: 'Ivan4o',
+                    sister: 'Marijka',
+                    grandparrents: {
+                        grandmother: 'Baba Todora'
+                    },
+
+                },
+            links: [{ name: 'link 1', href: 'partials/1.html' }, { name: 'link 2', href: 'partials/2.html' }, { name: 'link 3', href: 'partials/3.html' }]
+        };
+
+        var articleResult = articleTemplate(article);
+
+        document.getElementById('wrapper').innerHTML = articleResult;
+    </script>
+</body>
+
+</html>
