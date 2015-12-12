@@ -1,0 +1,32 @@
+﻿<div>
+    <h1>
+        Latest trips
+    </h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Driver</th>
+                <th>From</th>
+                <th>To</th>
+                <th>Departure time</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="trip in latestTrips">
+                <td>
+                    <a href="#/drivers/{{trip.driverId}}">{{trip.driverName}}</a>
+                </td>
+                <td>
+                    {{trip.from}}
+                </td>
+                <td>
+                    {{trip.to}}
+                </td>
+                <td>
+                    <a href="#/trips/{{trip.id}}">{{trip.departureDate}}</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <hr />
+</div>

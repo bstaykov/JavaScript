@@ -1,0 +1,21 @@
+﻿<div ng-controller="AuthController">
+    <form name="registration">
+        <label for="name">Name</label>
+        <input id="name" type="email" required placeholder="Name" ng-model="user.name" /><br />
+
+        <label for="pass">Password</label>
+        <input id="pass" type="password" ng-pattern="/^[a-zA-Z0-9]{6,100}$/" required placeholder="Password" ng-model="user.password" /><br />
+
+        <label for="confirm">Confirm Password </label>
+        <input id="confirm" type="password" ng-pattern="/^[a-zA-Z0-9]{6,100}$/" required placeholder="ConfirmPassword" ng-model="user.confirmPassword" /><br />
+
+        <label for="isDriver">Is Driver</label>
+        <input id="isDriver" type="checkbox" ng-model="user.isDriver" ng-click="hasCar = !hasCar" />
+
+        <label ng-show="hasCar" for="carName">Car Model</label>
+        <input id="carName" ng-show="hasCar" type="text" placeholder="Car Model" ng-model="user.car" /><br />
+
+        <br />
+        <button ng-click="register(user, registration)">Register</button>
+    </form>
+</div>
