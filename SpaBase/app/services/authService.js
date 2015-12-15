@@ -7,7 +7,9 @@ tripsModule.factory('authService', ['$http', '$q', 'baseUrl',
 
             $http.post(
                 baseUrl + 'api/users/register',
-                user, { headers: { 'Content-Type': 'application/json' }
+                user,
+                {
+                    headers: { 'Content-Type': 'application/json' }
                 })
                 .success(function (data) {
                     deferred.resolve(data);

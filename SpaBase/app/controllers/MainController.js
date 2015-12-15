@@ -1,13 +1,19 @@
 ﻿'use strict';
 
 tripsModule.controller('MainController',
-    ['$scope', '$log', '$routeParams', '$resource', '$location', 'statsService',
-function MainController($scope, $log, $routeParams, $resource, $location, statsService) {
+    ['$scope', '$log', '$routeParams', '$resource', '$location', 'statsService', 'examName', 'institution',
+function MainController($scope, $log, $routeParams, $resource, $location, statsService, examName, institution) {
     $scope.header = 'app/views/partials/header.html';
     $scope.footer = 'app/views/partials/footer.html';
     $scope.overallStatistic = 'app/views/partials/overallStatistic.html';
     $scope.tripsPublic = 'app/views/partials/tripsHome.html';
     $scope.driversPublic = 'app/views/partials/drivers.html';
+
+    $scope.orderTripsBy = 'departureDate';
+    $scope.limitTripsTo = 10;
+
+    $scope.examName = examName;
+    $scope.institution = institution;
 
     $scope.tripsStatistic;
     statsService.getTripsStatistics()

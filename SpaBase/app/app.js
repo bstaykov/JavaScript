@@ -31,5 +31,7 @@ var tripsModule = angular
         // REDIRECT when route is wrong
         $routeProvider.otherwise({ redirectTo: '/' });
     })
+    .value('examName', 'Spa Apps')
+    .constant('institution', 'Telerik Academy')
     //.constant('baseUrl', 'http://localhost:1234/');
     .constant('baseUrl', 'http://spa2014.bgcoder.com/');

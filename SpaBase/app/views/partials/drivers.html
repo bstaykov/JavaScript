@@ -1,29 +1,81 @@
-﻿<div>
-    <h1>
-        Latest drivers
-    </h1>
-
-    <table>
-        <thead>
-            <tr>
-                <th>Driver</th>
-                <th>Upcoming Trips</th>
-                <th>Total Trips</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr ng-repeat="driver in latestDrivers">
-                <td>
-                    <a href="#/drivers/{{driver.id}}">{{driver.name}}</a>
-                </td>
-                <td>
-                    {{driver.numberOfUpcomingTrips}}
-                </td>
-                <td>
-                    {{driver.numberOfTotalTrips}}
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <hr />
+﻿<div ng-if="isLogedIn">
+    <div ng-controller="DriversController">
+        <h1>
+            Latest drivers
+        </h1>
+        <div>
+            Containes 
+            <input type="text" ng-model="driverSubstringFilter" />
+            <button ng-click="setDriverSubstringFilter(driverSubstringFilter)">Filter</button>
+        </div>
+        <div>
+            Page 
+            <button ng-disabled="page <= 1" ng-click="getDriversByPage(page - 1, driverSubstringFilter)">
+                <strong>Previous</strong>
+            </button>
+            <input type="number" min="1" ng-model="page"/>
+            <button ng-click="getDriversByPage(page, driverSubstringFilter)">
+                <strong>{{page}}</strong>
+            </button>
+            <button ng-click="getDriversByPage(page + 1, driverSubstringFilter)">
+                <strong>Next</strong>
+            </button>
+        </div>
+        <table ui-if="filteredDrivers.length">
+            <thead>
+                <tr>
+                    <th>Driver</th>
+                    <th>Upcoming Trips</th>
+                    <th>Total Trips</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="driver in filteredDrivers = (drivers | filter:substring)">
+                    <td>
+                        <a href="#/drivers/{{driver.id}}">{{driver.name}}</a>
+                    </td>
+                    <td>
+                        {{driver.numberOfUpcomingTrips}}
+                    </td>
+                    <td>
+                        {{driver.numberOfTotalTrips}}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div ng-if="!filteredDrivers.length">
+            <h2>No Results!</h2>
+        </div>
+    </div>
 </div>
+<div ng-if="!isLogedIn">
+    <div>
+        <h1>
+            Latest drivers
+        </h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Upcoming Trips</th>
+                    <th>Total Trips</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="driver in latestDrivers">
+                    <td>
+                        <a href="#/drivers/{{driver.id}}">{{driver.name}}</a>
+                    </td>
+                    <td>
+                        {{driver.numberOfUpcomingTrips}}
+                    </td>
+                    <td>
+                        {{driver.numberOfTotalTrips}}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <hr />
+    </div>
+</div>
+

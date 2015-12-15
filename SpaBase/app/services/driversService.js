@@ -19,7 +19,31 @@ tripsModule.factory('driversService', ['$http', '$q', 'baseUrl',
             return deferred.promise;
         }
 
+        function getDriversByPage(page, key, userNameContent) {
+            var deferred = $q.defer();
+            var url = baseUrl + 'api/drivers/?page=' + page;
+            if (userNameContent) {
+                url += '&username=' + userNameContent;
+            }
+            console.log('Page: ' + page);
+            console.log(url);
+            $http.get(
+                url,
+                {
+                    headers: { 'Authorization': "Bearer " + key }
+                })
+                .success(function (data) {
+                    console.log(data);
+                    deferred.resolve(data);
+                })
+                .error(function (error) {
+                    deferred.reject(error);
+                });
+            return deferred.promise;
+        }
+
         return {
             getDriverDetails: getDriverDetails,
+            getDriversByPage: getDriversByPage,
         };
     }]);

@@ -2,9 +2,25 @@
     <h1>
         Latest trips
     </h1>
+    <label for="tripsSortId">Order by: </label>
+    <select id="tripsSortId" ng-model="orderTripsBy">
+        <option value="driverName">Driver name ASC</option>
+        <option value="-driverName">Driver name DESC</option>
+        <option value="from">From ASC</option>
+        <option value="-from">From DESC</option>
+        <option value="to">To ASC</option>
+        <option value="-to">To DESC</option>
+        <option value="departureDate" selected="selected">Departure Date ASC</option>
+        <option value="-departureDate">Departure Date DESC</option>
+    </select>
+    <label for="limitTripsId">Limit to: </label>
+    <input id="limitTripsId" type="number" min="0" max="10" value="10" ng-model="limitTripsTo" />
+    <label for="substringId">Search for</label>
+    <input id="substringId" type="text" ng-model="substring" />
     <table>
         <thead>
             <tr>
+                <th>Index</th>
                 <th>Driver</th>
                 <th>From</th>
                 <th>To</th>
@@ -12,9 +28,10 @@
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="trip in latestTrips">
+            <tr ng-repeat="trip in latestTrips | orderBy:orderTripsBy | limitTo:limitTripsTo | filter:substring">
+                <td>{{$index}}</td>
                 <td>
-                    <a href="#/drivers/{{trip.driverId}}">{{trip.driverName}}</a>
+                    <a href="#/drivers/{{trip.driverId}}">{{trip.driverName | takeNameFromMailFilter}} ({{trip.driverName}})</a>
                 </td>
                 <td>
                     {{trip.from}}

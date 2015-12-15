@@ -7,6 +7,7 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="content/app.css" rel="stylesheet" />
+    <script src="libs/angular.js"></script> <!-- link has to be here for ng-cloak to work -->
 </head>
 <body ng-app="tripsModule" ng-cloak ng-controller="MainController">
     <div ng-controller="AuthController">
@@ -21,7 +22,6 @@
     </div>
     
     <script src="libs/jquery.min.js"></script>
-    <script src="libs/angular.js"></script>
     <script src="libs/angular-cookies.js"></script>
     <script src="libs/angular-resource.js"></script>
     <script src="libs/angular-route.js"></script>
@@ -40,6 +40,9 @@
     <script src="app/services/statsService.js"></script>
     <script src="app/services/tripsService.js"></script>
     <script src="app/services/driversService.js"></script>
+    <script src="app/filters/takeNameFromMailFilter.js"></script>
+    <script src="app/filters/onlyMineTripsFilter.js"></script>
+    <script src="app/filters/onlyDriverTripsFilter.js"></script>
     <script src="app/services/sha1Service.js"></script>
 </body>
 </html>

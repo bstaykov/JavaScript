@@ -2,7 +2,7 @@
     <h1>
         Latest trips
     </h1>
-    <div ng-show ="userInfo.isDriver">
+    <div ng-show="userInfo.isDriver && isLogedIn">
         <button><a href="#/trips/create">Create</a></button>
     </div>
     <table>
@@ -18,22 +18,12 @@
         <tbody>
             <tr ng-repeat="trip in latestTrips">
                 <td>
-                    <span ng-hide="isLogedIn">
-                        {{trip.driverName}}
-                    </span>
-                    <span ng-show="isLogedIn">
-                        <a href="#/drivers/{{trip.driverId}}">{{trip.driverName}}</a>
-                    </span>
+                    <a href="#/drivers/{{trip.driverId}}">{{trip.driverName}}</a>
                 </td>
                 <td>{{trip.from}}</td>
                 <td>{{trip.to}}</td>
                 <td>
-                    <span ng-hide="isLogedIn">
-                        {{trip.departureDate}}
-                    </span>
-                    <span ng-show="isLogedIn">
-                        <a href="#/trips/{{trip.id}}">{{trip.departureDate}}</a>
-                    </span>
+                    <a href="#/trips/{{trip.id}}">{{trip.departureDate}}</a>
                 </td>
                 <td ng-show="isLogedIn">
                     <span ng-show="trip.isMine">YES</span>

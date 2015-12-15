@@ -40,6 +40,8 @@ function AuthController($scope, $http, $log, $cookieStore, $routeParams, $resour
                     .then(function (data) {
                         console.log(data);
                         $location.path('/');
+                    }, function (error) {
+                        $location.path('/error/' + error.modelState[''][0]);
                     })
                     .catch($log.error);
             }
@@ -69,6 +71,8 @@ function AuthController($scope, $http, $log, $cookieStore, $routeParams, $resour
                         $scope.isLogedIn = true;
                         $scope.userLabel = data.userName;
                         $location.path('/home');
+                    }, function (error) {
+                        $location.path('/error/' + error['error_description']);
                     })
                     .catch($log.error);
             }
@@ -92,8 +96,10 @@ function AuthController($scope, $http, $log, $cookieStore, $routeParams, $resour
                     $scope.isLogedIn = false;
                     $scope.userLabel = "";
                     $location.path('/home');
+                }, function (error) {
+                    $location.path('/error/' + error['message']);
                 })
-                .catch($log.error);;
+                .catch($log.error);
         }
         
         $scope.getUserInfo = function () {
@@ -105,6 +111,8 @@ function AuthController($scope, $http, $log, $cookieStore, $routeParams, $resour
                 .then(function (data) {
                     console.log(data);
                     $scope.userInfo = data;
+                }, function (error) {
+                    $location.path('/error/' + error['message']);
                 })
                 .catch($log.error);
         }

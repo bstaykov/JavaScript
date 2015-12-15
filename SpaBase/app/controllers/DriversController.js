@@ -17,4 +17,42 @@ tripsModule.controller('DriversController', ['$scope', '$log', '$routeParams', '
                     })
                     .catch($log.error);
         }
+
+        $scope.substring;
+        $scope.setDriverSubstringFilter = function (newSubstringToFilterWith) {
+            $scope.substring = newSubstringToFilterWith;
+        }
+
+        // initial load
+        $scope.drivers;
+        driversService.getDriversByPage(1, cookiesService.getToken())
+                .then(function (data) {
+                    $scope.page = 1;
+                    $scope.drivers = data;
+                }, function (error) {
+                    $location.path('/error/' + error['message']);
+                })
+                .catch($log.error);
+
+        $scope.page = 1;
+        $scope.getDriversByPage = function (page, userNameContent) {
+            console.log(1);
+            if (!cookiesService.isLoged()) {
+                $location.path('/unauthorized');
+                return;
+            }
+
+            if (page <= 0) {
+                page = 1;
+            }
+
+            driversService.getDriversByPage(page, cookiesService.getToken(), userNameContent)
+                .then(function (data) {
+                    $scope.page = page;
+                    $scope.drivers = data;
+                }, function (error) {
+                    $location.path('/error/' + error['message']);
+                })
+                .catch($log.error);
+        }
     }]);
