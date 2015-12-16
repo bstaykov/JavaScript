@@ -6,7 +6,7 @@ tripsModule.filter('onlyMineTripsFilter', [
             if (onlyMineTrips === true) {
                 var mineTrips = [];
                 for (var i in input) {
-                    if (input[i]['driverName'] === myName) {
+                    if (input[i]['isMine'] === true) {
                         mineTrips.push(input[i]);
                     }
                 }

@@ -6,6 +6,7 @@
     <title>Trips 2014</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--<link href="http://code.jquery.com/ui/jquery-ui-git.css" rel="stylesheet"/>-->
     <link href="content/app.css" rel="stylesheet" />
     <script src="libs/angular.js"></script> <!-- link has to be here for ng-cloak to work -->
 </head>
@@ -21,6 +22,9 @@
         <div ng-include="footer"></div>
     </div>
     
+    <!--<script src="https://code.jquery.com/jquery-2.1.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.11.3/jquery-ui.js"></script>
+    <script src="https://code.jquery.com/ui/1.11.4/themes/black-tie/jquery-ui.css"></script>-->
     <script src="libs/jquery.min.js"></script>
     <script src="libs/angular-cookies.js"></script>
     <script src="libs/angular-resource.js"></script>
@@ -43,6 +47,10 @@
     <script src="app/filters/takeNameFromMailFilter.js"></script>
     <script src="app/filters/onlyMineTripsFilter.js"></script>
     <script src="app/filters/onlyDriverTripsFilter.js"></script>
+    <script src="app/filters/isTripFinishedFilter.js"></script>
     <script src="app/services/sha1Service.js"></script>
+    <script src="app/directives/datePickerDirective.js"></script>
+    <script src="app/directives/tripDirective.js"></script>
+    <script src="app/directives/tripPublicDirective.js"></script>
 </body>
 </html>

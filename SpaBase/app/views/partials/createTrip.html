@@ -16,8 +16,9 @@
         <label for="availableSeats">Available seats </label>
         <input id="availableSeats" type="number" required ng-model="trip.availableSeats" min="1" max="7"/><br />
 
-        <label for="departureTime">Departure time</label>
-        <input id="departureTime" required type="datetime" ng-model="trip.departureTime"/>
+        <!--<label for="departureTime">Departure time</label>-->
+        <div date-picker-directive model="trip.departureTime" id="'departureTime'"></div>
+        <!--<input id="departureTime" required type="datetime" ng-model="trip.departureTime"/>-->
 
         <br />
         <button ng-click="createTrip(trip, create)">Create</button>

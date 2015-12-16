@@ -31,7 +31,9 @@ var tripsModule = angular
         // REDIRECT when route is wrong
         $routeProvider.otherwise({ redirectTo: '/' });
     })
+    .value('jQuery', jQuery) // Use it as dependancy in controller, service, directive ...
     .value('examName', 'Spa Apps')
+    .value('cities', [])
     .constant('institution', 'Telerik Academy')
     //.constant('baseUrl', 'http://localhost:1234/');
     .constant('baseUrl', 'http://spa2014.bgcoder.com/');

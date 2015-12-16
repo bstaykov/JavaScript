@@ -28,22 +28,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="trip in latestTrips | orderBy:orderTripsBy | limitTo:limitTripsTo | filter:substring">
-                <td>{{$index}}</td>
-                <td>
-                    <a href="#/drivers/{{trip.driverId}}">{{trip.driverName | takeNameFromMailFilter}} ({{trip.driverName}})</a>
-                </td>
-                <td>
-                    {{trip.from}}
-                </td>
-                <td>
-                    {{trip.to}}
-                </td>
-                <td>
-                    <a href="#/trips/{{trip.id}}">{{trip.departureDate}}</a>
-                </td>
-            </tr>
+            <tr trip-public-directive trip-model="trip" index="$index" ng-repeat="trip in latestTrips | orderBy:orderTripsBy | limitTo:limitTripsTo | filter:substring"></tr>
         </tbody>
     </table>
-    <hr />
 </div>

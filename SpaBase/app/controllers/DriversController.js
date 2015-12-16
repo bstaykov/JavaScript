@@ -16,6 +16,7 @@ tripsModule.controller('DriversController', ['$scope', '$log', '$routeParams', '
                         console.log(data);
                     })
                     .catch($log.error);
+            return;
         }
 
         $scope.substring;
@@ -23,7 +24,7 @@ tripsModule.controller('DriversController', ['$scope', '$log', '$routeParams', '
             $scope.substring = newSubstringToFilterWith;
         }
 
-        // initial load
+        // initial drivers load
         $scope.drivers;
         driversService.getDriversByPage(1, cookiesService.getToken())
                 .then(function (data) {
@@ -44,6 +45,7 @@ tripsModule.controller('DriversController', ['$scope', '$log', '$routeParams', '
 
             if (page <= 0) {
                 page = 1;
+                $scope.page = 1;
             }
 
             driversService.getDriversByPage(page, cookiesService.getToken(), userNameContent)

@@ -7,7 +7,7 @@ function MainController($scope, $log, $routeParams, $resource, $location, statsS
     $scope.footer = 'app/views/partials/footer.html';
     $scope.overallStatistic = 'app/views/partials/overallStatistic.html';
     $scope.tripsPublic = 'app/views/partials/tripsHome.html';
-    $scope.driversPublic = 'app/views/partials/drivers.html';
+    $scope.driversPublic = 'app/views/partials/driversHome.html';
 
     $scope.orderTripsBy = 'departureDate';
     $scope.limitTripsTo = 10;
