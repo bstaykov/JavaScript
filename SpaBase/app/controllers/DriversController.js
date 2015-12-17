@@ -37,7 +37,6 @@ tripsModule.controller('DriversController', ['$scope', '$log', '$routeParams', '
 
         $scope.page = 1;
         $scope.getDriversByPage = function (page, userNameContent) {
-            console.log(1);
             if (!cookiesService.isLoged()) {
                 $location.path('/unauthorized');
                 return;

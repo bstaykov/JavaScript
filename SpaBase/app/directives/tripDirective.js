@@ -7,8 +7,8 @@
             isLoged: '='
         },
         link: function (scope, element, attributes, controller) {
-            console.log(scope.model);
-            console.log(element);
+            //console.log(scope.model);
+            //console.log(element);
         },
         replace: false,
         priority: 0,

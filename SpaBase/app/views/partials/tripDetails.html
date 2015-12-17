@@ -2,7 +2,7 @@
     <h1>Trip Details</h1>
     <h2>
         <a href="#/drivers/{{tripDetails.driverId}}">{{tripDetails.driverName}}</a> - {{tripDetails.departureDate}}</h2>
-    <div ng-hide="tripDetails.isMine">
+    <div ng-hide="tripDetails.isMine || tripDetails.numberOfFreeSeats == 0">
         <button ng-click="joinTrip(tripDetails.id)">Join</button>
     </div>
     <div>

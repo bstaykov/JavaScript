@@ -4,12 +4,14 @@
     <div>
         <span>Upcoming trips: {{driverDetails.numberOfUpcomingTrips}}</span>
         <span>Total trips: {{driverDetails.numberOfTotalTrips}}</span>
-        <span>
-            <label for="mineTrips">Only mine trips</label>
-            <input id="mineTrips" type="checkbox" ng-model="onlyMineTrips"/>  
-            <label for="driversTrips">Only driver trips</label>
-            <input id="driversTrips" type="checkbox" ng-model="onlyDriverTrips" />     
-        </span>
+        <div>
+            <div>
+                <label for="mineTrips">Only mine trips</label>
+                <input id="mineTrips" type="checkbox" ng-model="onlyMineTrips" />  </div>
+            <div>
+                <label for="driversTrips">Only driver trips</label>
+                <input id="driversTrips" type="checkbox" ng-model="onlyDriverTrips" />  </div>   
+        </div>
         <span>
             <label for="tripsSortId">Order by: </label>
             <select id="tripsSortId" ng-model="orderTripsBy">

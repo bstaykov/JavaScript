@@ -2,8 +2,12 @@
 
 tripsModule.controller('TripsController', ['$scope', '$log', '$routeParams', '$resource', '$location', 'tripsService', 'cookiesService', 'cities',
     function TripsController($scope, $log, $routeParams, $resource, $location, tripsService, cookiesService, cities) {
-        //$scope.orderBy = 'date';
-        //$scope.orderType = 'asc';
+        $scope.orderBy = 'date';
+        $scope.orderType = 'asc';
+        $scope.from;
+        $scope.to;
+        $scope.isFinished = false;
+        $scope.onlyMineTrips = false;
 
         $scope.cities;
         if (cities.length === 0) {
@@ -19,6 +23,7 @@ tripsModule.controller('TripsController', ['$scope', '$log', '$routeParams', '$r
         }
 
         $scope.message;
+        $scope.error;
 
         $scope.createTrip = function (trip, form) {
             if (!cookiesService.isLoged()) {
@@ -36,16 +41,18 @@ tripsModule.controller('TripsController', ['$scope', '$log', '$routeParams', '$r
 
                 tripsService.createTrip(tripInfo, cookiesService.getToken())
                     .then(function (data) {
-                        console.log(data);
-                        // $location.path('/trips');
-                        $scope.message = 'Trip added successfully!';
+                        //console.log(data);
+                        //console.log(data.id);
+                        //$scope.message = 'Trip added successfully!';
+                        $location.path('/trips/' + data.id);
+                    }, function (error) {
+                        $scope.error = error.message;
                     })
                     .catch($log.error);
             }
 
             if (form.$invalid) {
                 $scope.message = 'Invalid form data!';
-                // $location.path('/error/InvalidForm');
             }
         }
 
@@ -126,118 +133,14 @@ tripsModule.controller('TripsController', ['$scope', '$log', '$routeParams', '$r
                 $scope.page = 1;
             }
 
-            if (page !== undefined &&
-                    orderBy !== undefined &&
-                    orderType !== undefined &&
-                    from !== undefined &&
-                    isFinished !== undefined &&
-                    onlyMineTrips !== undefined) {
-                tripsService.getTripsFilteredPaged(page, orderBy, orderType, from, isFinished, onlyMineTrips, cookiesService.getToken())
+            tripsService.getTripsFilteredPaged(page, orderBy, orderType, from, to, isFinished, onlyMineTrips, cookiesService.getToken())
                 .then(function (data) {
-                    console.log(2);
-                    console.log(page);
-                    console.log(orderBy);
-                    console.log(orderType);
-                    console.log(from);
-                    console.log(isFinished);
-                    console.log(onlyMineTrips);
                     $scope.page = page;
                     $scope.trips = data;
                 }, function (error) {
                     $location.path('/error/' + error['message']);
                 })
                 .catch($log.error);
-            } else {
-                var currentTrips = [];
-                var isIntersected = false;
-                console.log(isIntersected);
-                if (orderBy !== undefined && orderType !== undefined) {
-                    tripsService.getTripsOrderedPaged(page, orderBy, orderType, cookiesService.getToken())
-                        .then(function (data) {
-                            currentTrips = data;
-                            isIntersected = true;
-                            console.log('INNER: ' + isIntersected);
-                            console.log('L1: ' + currentTrips.length);
-                        }, function (error) {
-                            $location.path('/error/' + error['message']);
-                        })
-                        .catch($log.error);
-                }
-
-                console.log(isIntersected);
-                if (from !== undefined && to !== undefined) {
-                    tripsService.getTripsFromToPaged(page, from, to, cookiesService.getToken())
-                        .then(function (data) {
-                            if (isIntersected === true) {
-                                currentTrips = selectIntersections(currentTrips, data);
-                            } else if (currentTrips.length === 0) {
-                                currentTrips = data;
-                            } else {
-                                currentTrips = selectIntersections(currentTrips, data);
-                            }
-                            isIntersected = true;
-                            console.log('L2: ' + currentTrips.length);
-                        }, function (error) {
-                            $location.path('/error/' + error['message']);
-                        })
-                        .catch($log.error);
-                }
-
-                console.log(isIntersected);
-                if (isFinished !== undefined) {
-                    tripsService.getFinishedTripsPaged(page, isFinished, cookiesService.getToken())
-                        .then(function (data) {
-                            if (isIntersected === true) {
-                                currentTrips = selectIntersections(currentTrips, data);
-                            } else if (currentTrips.length === 0) {
-                                currentTrips = data;
-                            } else {
-                                currentTrips = selectIntersections(currentTrips, data);
-                            }
-                            isIntersected = true;
-                            console.log('L3: ' + currentTrips.length);
-                        }, function (error) {
-                            $location.path('/error/' + error['message']);
-                        })
-                        .catch($log.error);
-                }
-
-                console.log(isIntersected);
-                if (onlyMineTrips !== undefined) {
-                    tripsService.getMyTripsPaged(page, onlyMineTrips, cookiesService.getToken())
-                        .then(function (data) {
-                            if (isIntersected === true) {
-                                currentTrips = selectIntersections(currentTrips, data);
-                            } else if (currentTrips.length === 0) {
-                                currentTrips = data;
-                            } else {
-                                currentTrips = selectIntersections(currentTrips, data);
-                            }
-                            isIntersected = true;
-                            console.log('L4: ' + currentTrips.length);
-                        }, function (error) {
-                            $location.path('/error/' + error['message']);
-                        })
-                        .catch($log.error);
-                } 
-
-                console.log(isIntersected);
-                // add atleast 10
-                if (!isIntersected) {
-                    tripsService.getTripsByPageOnly(page, cookiesService.getToken())
-                        .then(function (data) {
-                            console.log(isIntersected);
-                            currentTrips = data;
-                            console.log('L5: ' + currentTrips.length);
-                        }, function (error) {
-                            $location.path('/error/' + error['message']);
-                        })
-                        .catch($log.error);
-                }
-                
-                $scope.page = page;
-                $scope.trips = currentTrips;
-            }
         }
 
         function selectIntersections(firstArray, secondArray) {

@@ -25,15 +25,13 @@ tripsModule.factory('driversService', ['$http', '$q', 'baseUrl',
             if (userNameContent) {
                 url += '&username=' + userNameContent;
             }
-            console.log('Page: ' + page);
-            console.log(url);
+
             $http.get(
                 url,
                 {
                     headers: { 'Authorization': "Bearer " + key }
                 })
                 .success(function (data) {
-                    console.log(data);
                     deferred.resolve(data);
                 })
                 .error(function (error) {

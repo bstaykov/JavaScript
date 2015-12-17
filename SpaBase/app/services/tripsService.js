@@ -69,23 +69,27 @@ tripsModule.factory('tripsService', ['$http', '$q', 'baseUrl',
             return deferred.promise;
         }
 
-        function getTripsFilteredPaged(page, orderBy, orderType, from, isFinished, onlyMineTrips, key) {
+        function getTripsFilteredPaged(page, orderBy, orderType, from, to, isFinished, onlyMineTrips, key) {
             var deferred = $q.defer();
             var url = baseUrl + 'api/trips/?page=' + page +
                 '&orderBy=' + orderBy +
                 '&orderType=' + orderType +
-                '&from=' + from +
                 '&finished=' + isFinished +
                 '&onlyMine=' + onlyMineTrips;
-            console.log('Page: ' + page);
-            console.log(url);
+            if (from !== undefined) {
+                url += '&from=' + from;
+            }
+
+            if (to !== undefined) {
+                url += '&to=' + to;
+            }
+
             $http.get(
                 url,
                 {
                     headers: { 'Authorization': "Bearer " + key }
                 })
                 .success(function (data) {
-                    console.log(data);
                     deferred.resolve(data);
                 })
                 .error(function (error) {
