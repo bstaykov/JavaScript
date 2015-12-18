@@ -1,13 +1,17 @@
 ﻿'use strict';
 
 var tripsModule = angular
-    .module('tripsModule', ['ngRoute', 'ngResource', 'ngCookies', 'ngSanitize'])
+    .module('tripsModule', ['ngRoute', 'ngResource', 'ngCookies', 'ngSanitize', 'angular-loading-bar'])
     .config(function ($routeProvider) {
+
+
         $routeProvider
             .when('/', {
                 templateUrl: 'app/views/partials/home.html',
             }).when('/register', {
                 templateUrl: 'app/views/partials/register.html'
+            }).when('/login', {
+                templateUrl: 'app/views/partials/login.html'
             }).when('/userInfo', {
                 templateUrl: 'app/views/partials/userInfo.html'
             }).when('/trips', {
@@ -26,6 +30,16 @@ var tripsModule = angular
                 templateUrl: 'app/views/partials/error.html'
             }).when('/error/:message/', {
                 templateUrl: 'app/views/partials/error.html'
+            }).when('/private', {
+                templateUrl: 'app/views/partials/private.html',
+                resolve: {
+                    authorize: ['cookiesService', '$location', function (cookiesService, $location) {
+                        if (!cookiesService.isLoged())
+                        {
+                            $location.path('/unauthorized');
+                        }
+                    }]
+                }
             });
 
         // REDIRECT when route is wrong
@@ -37,3 +51,15 @@ var tripsModule = angular
     .constant('institution', 'Telerik Academy')
     //.constant('baseUrl', 'http://localhost:1234/');
     .constant('baseUrl', 'http://spa2014.bgcoder.com/');
+
+// .run('$routeScope', '$location', 'cookieService', run)
+
+//var routeResolveChecks = routeResolversProvider.$get();
+
+//var run = function run($routeScope, $location, cookieService) {
+//    $routeScope.$on('$routeChangeError', function (ev, current, previous, rejection) {
+//        if (!cookieService.isLoged()) {
+//            $location.path('/login');
+//        }
+//    });
+//};

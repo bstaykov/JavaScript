@@ -24,6 +24,7 @@ tripsModule.factory('authService', ['$http', '$q', 'baseUrl',
             var deferred = $q.defer();
             $http.post(baseUrl + 'api/users/login', 'username=' + user.username + '&password=' + user.password + '&grant_type=password', { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } })
                 .success(function (data) {
+                    //$http.defaults.headers.common.Authorization = 'Bearer ' + data['access_token']; // send it with every request
                     deferred.resolve(data);
                 })
                 .error(function (error) {

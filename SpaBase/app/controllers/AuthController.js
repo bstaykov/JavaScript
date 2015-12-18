@@ -67,7 +67,6 @@ function AuthController($scope, $http, $log, $cookieStore, $routeParams, $resour
                 authService.login(userInfo)
                     .then(function (data) {
                         cookiesService.logToken(data['access_token']);
-                        // logSession(data);
                         $scope.isLogedIn = true;
                         $scope.userLabel = data.userName;
                         $location.path('/home');
