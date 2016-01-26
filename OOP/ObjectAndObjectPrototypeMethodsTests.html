@@ -11,7 +11,8 @@
 
             Object.defineProperty(obj, 'Name', {
                 __proto__: null,
-                value: 'John',
+                value: 'John - configurable: false, enumerable: true',
+                configurable: false,
                 enumerable: true,
             });
 
@@ -65,19 +66,9 @@
             //Object.seal(obj);
             //console.log('isSealed(): ' + Object.isSealed(obj));
 
-            // configurable: false
-            // extendable: falseaa
-            //Object.seal(obj);
-            //console.log(Object.isSealed(obj));
-
-            // obj cannot change
+            // obj cannot change, but inner properties can
             // Object.freeze(obj);
             // console.log(Object.isFrozen(obj));
-
-            //for (var i in obj) {
-            //    console.log(i);
-            //}
-
 
             // throw if sealed() or preventExtensions()
             //Object.defineProperty(obj, 'Planet', {
@@ -101,6 +92,8 @@
                 return configuration;
             }
 
+            console.log(obj);
+            obj.Name = 'John - configurable: true ...';
             obj.Age = 28;
             obj.City = 'Sofia';
             obj.Street = 'Malinov';
@@ -110,7 +103,7 @@
             console.log(obj);
 
             // keys
-            //console.log(Object.keys(obj));
+            console.log(Object.keys(obj));
 
         }());
 
@@ -147,10 +140,6 @@
             obj.name = 'Gosho';
             obj.age = 22;
             console.log(obj);
-
-            //for (var i in obj) {
-            //    console.log(i);
-            //}
         }());
 
         //(function () {

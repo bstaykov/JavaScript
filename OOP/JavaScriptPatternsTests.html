@@ -1,10 +1,11 @@
 ﻿<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title>JavaScript Patterns</title>
+    <title>JavaScript Patterns Tests</title>
 </head>
 <body>
     <script>
+        // Revealing module pattern
         var db = (function () {
             var id = 0,
                 objects = [];
@@ -16,10 +17,16 @@
             function add(obj) {
                 obj.id = generateId();
                 objects.push(obj);
+                return db;
             }
 
             function list() {
-                return objects.slice();
+                return objects.map(function (obj) { // deep copy for preventing evel hackers
+                    return {
+                        name: obj.name,
+                        id: obj.id,
+                    }
+                });
             }
 
             return {
@@ -28,10 +35,22 @@
             };
         }());
 
-        db.add({ name: 'Ivan' });
-        db.add({ name: 'Ivan', age: 23 });
-        db.add({ name: 'Ivan', age: 34 });
-        console.log(db.list());
+        db.add({ name: 'Ivan1' })
+            .add({ name: 'Ivan2', age: 23 })
+            .add({ name: 'Ivan3', age: 34 });
+        var objs = db.list(),
+            i,
+            len;
+        for (i = 0, len = objs.length; i < len; i += 1) {
+            console.log(objs[i]);
+        }
+
+        console.log('Evel hacker attempt......');
+        objs[0].name = 'Ivan1 CHANGED';
+        objs = db.list();
+        for (i = 0, len = objs.length; i < len; i += 1) {
+            console.log(objs[i]);
+        }
 
         // Singleton
         var databases = (function () {
@@ -66,7 +85,7 @@
 
             return {
                 get: function () {
-                    if (instance === undefined ) {
+                    if (instance === undefined) {
                         instance = {
                             result: 0,
                             add: function (x) {

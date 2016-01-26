@@ -67,7 +67,7 @@
     </div>
     <div id="people-list"></div>
     <script>
-        var text = 'Some some Some 1 2 some 1234567890';
+        var text = 'Some some Some 1 2 Some some 1234567890';
         console.log(text);
 
         console.log('==========concat==========');
@@ -76,48 +76,107 @@
             c = 'Ivanov',
             d = a.concat(b, c);
         console.log(d);
+        console.log(''.concat('Pesho', ' ', 'Goshov'));
 
         console.log('==========replace==========');
-        var replacedText = text.replace('Some', 'WOW');
-        console.log(replacedText);
+        var newText = text.replace('Some', 'WOWe');
+        console.log(newText);
 
         console.log('==========replace-regex==========');
-        var regexReplace = text.replace(/Some/g, 'WOW');
-        console.log(regexReplace);
+        newText = text.replace(/Some/g, 'WOWe');
+        console.log(newText);
 
         console.log('==========search==========');
-        var searched = text.search(/[A-z]+/);
+        console.log('Search "so"');
+        var index = text.search(/so+/);
         //searched = text.search(/12+/);
-        console.log(searched);
+        console.log(index);
 
         console.log('==========split==========');
+        console.log('Split by " "');
         var words = text.split(' ');
         console.log(words);
         console.log('==========split-regex==========');
-        var splitRegex = text.split(/[ 1]/g)
+        words = text.split(/[o 1]/g) // split by " " and 1
             .filter(function (word) { // remove empty strings
                 return !!word;
             });
-        console.log(splitRegex);
+        console.log(words);
         console.log('==========substr==========');
+        console.log('text.substr(25) (from index 25)');
         console.log(text.substr(25));
+        console.log('text.substr(25, 5) (from index 25 with length 5)');
         console.log(text.substr(25, 5));
         console.log('==========substring==========');
+        console.log('text.substring(25) (from index 25)');
         console.log(text.substring(25));
+        console.log('text.substring(25, 27) (from index 25 to index 27)');
         console.log(text.substring(25, 27));
 
         console.log('==========htmlEscape()==========');
         if (!(String.prototype.htmlEscape)) {
             String.prototype.htmlEscape = function () {
-                var escapedStr = String(this).replace(/&/g, '&amp;');
-                escapedStr = escapedStr.replace(/</g, '&lt;');
-                escapedStr = escapedStr.replace(/>/g, '&gt;');
-                escapedStr = escapedStr.replace(/"/g, '&quot;');
-                escapedStr = escapedStr.replace(/'/g, '&#39');
+                var escapedStr = String(this)
+                    .replace(/&/g, '&amp;')
+                    .replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;')
+                    .replace(/"/g, '&quot;')
+                    .replace(/'/g, '&#39');
                 return escapedStr;
             }
         }
 
+        console.log('ASD<ASD>ASD"ASD&ASD'.htmlEscape());
+
+        console.log('==========padLeft(count [, char])==========');
+        if (!String.prototype.padLeft) {
+            String.prototype.padLeft = function (count, char) {
+                char = char || ' ';
+                if (char.length > 1) {
+                    return String(this);
+                }
+
+                if (this.length >= count) {
+                    return String(this);
+                }
+
+                var newString = String(this),
+                    i,
+                    len;
+                for (i = 0, len = count - newString.length; i < len; i += 1) {
+                    newString = char + newString;
+                }
+
+                return newString;
+            }
+        }
+
+        console.log('10101'.padLeft(32, '0'));
+
+        console.log('==========padRight(count [, char])==========');
+        if (!String.prototype.padRight) {
+            String.prototype.padRight = function (count, char) {
+                char = char || ' ';
+                if (char.length > 1) {
+                    return String(this);
+                }
+
+                if (this.length >= count) {
+                    return String(this);
+                }
+
+                var newString = String(this),
+                    i,
+                    len;
+                for (i = 0, len = count - newString.length; i < len; i += 1) {
+                    newString += char;
+                }
+
+                return newString;
+            }
+        }
+
+        console.log('10101'.padRight(32, '0'));
 
         var title = '<h1>Strings</h1>';
         document.getElementById('title').innerHTML = title;
@@ -269,7 +328,7 @@
 
         console.log('==========9==========');
         var email = 'Some random email: someIdentifier1@someHost1.someDomain and one more random email someIdentifier2@someHost2.someOtherDomain',
-            regEx = /[a-z0-9._-]{6,}@\w+\.[a-z.]{2,}/ig, 
+            regEx = /[a-z0-9._-]{6,}@\w+\.[a-z.]{2,}/ig,
             result;
 
         while ((result = regEx.exec(email)) !== null) {
@@ -321,7 +380,7 @@
 
         console.log('==========11==========');
 
-        var args = [1, 'pesho', 'Gosho', 'a', 'b', 'c'], 
+        var args = [1, 'pesho', 'Gosho', 'a', 'b', 'c'],
             formatString = '{0}, {1}, {0} text {2} {3} {4} {5}',
             text = formatString.replace(/{([0-9]+)}/ig, function () { return args[parseInt(arguments[1])]; });
 

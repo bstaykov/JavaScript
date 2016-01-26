@@ -100,6 +100,7 @@
         var someCat = Object.create(cat).init('Koko', 10, 'green');
         console.log(someCat.toString());
 
+        // 7
         var vehicle = (function () {
             var vehicle = {};
 
@@ -185,6 +186,27 @@
         console.log('===== duck typing ====='); // the method move needs 'brand' and 'wheels'
         console.log(car.move.call({ brand: 'Lada', wheels: 4 }));
         console.log(car.move.call({ wheels: 4 })); // work with 'wheels' only
+
+        var person1 = { name: 'AAAA', age: 111, size: '1111' };
+        console.log(person1);
+        var update = function (name, age, size) {
+            this.name = name;
+            this.age = age;
+            this.size = size;
+        };
+
+        update.call(person1, 'BBBB', 222, '2222');
+        console.log(person1);
+        
+        update.apply(person1, ['CCCC', 333, '3333']);
+        console.log(person1);
+
+        var args = ['DDDD', 44, '44444'],
+            dispatch = function (obj, functionName, args) {
+            functionName.apply(obj, args);
+        };
+        dispatch(person1, update, args);
+        console.log(person1);
     </script>
 </body>
 </html>
